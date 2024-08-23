@@ -50,13 +50,13 @@ For visualizing road lines on the map, you only need:
 &nbsp;&nbsp;&nbsp;&nbsp;Initially, you need to collect videos of the streets to identify the road markings. The more similar the features of the images, such as zoom and camera angle, are to the CULane dataset, the better the results you will achieve with the LaneAF model. You can see an example of a suitable image in the [Demo](#demo) section. We fixed the camera using a mount on the vehicle's dashboard and set the camera zoom to 0.5x, which provided very good results. For this task, we used an iPhone camera and the third-party app TimestampCamera to precisely record the exact timestamp of each frame to the millisecond.
 
 <div style="display: flex; align-items: flex-end; justify-content: space-between;">
-  <figure style="flex: 1; margin-right: 20px; text-align: center;">
+  <figure style="flex: 1; text-align: center; margin-right: 20px;">
     <img src="assets/fixed_camera.jpg" alt="Camera Fixed on the Vehicle's Dashboard" width="450" style="max-width: 100%; height: auto;"/>
-    <figcaption style="text-align: center;">Camera Fixed on the Vehicle's Dashboard</figcaption>
+    <figcaption style="margin-top: 10px;">Camera Fixed on the Vehicle's Dashboard</figcaption>
   </figure>
   <figure style="flex: 1; text-align: center;">
-    <img src="assets/timestampCamera.png" alt="Timestamp Camera iOS App" width="200" style="max-width: 100%; height: auto;"/>
-    <figcaption style="text-align: center;">Timestamp Camera iOS App</figcaption>
+    <img src="assets/timestampCamera.png" alt="Timestamp Camera iOS App" width="250" style="max-width: 100%; height: auto;"/>
+    <figcaption style="margin-top: 10px;">Timestamp Camera iOS App</figcaption>
   </figure>
 </div>
 
