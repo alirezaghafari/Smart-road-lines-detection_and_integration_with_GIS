@@ -7,7 +7,7 @@ This repository contains the code and resources for my bachelor's thesis project
 ### Detected Road Lines
 
 <p align="center">
-  <img src="assets/detected_lines.gif" alt="Detected Road Lines" width="600"/>
+  <img src="assets/detected_lines.gif" alt="Detected Road Lines" width="800"/>
 </p>
 
 <br>
@@ -15,5 +15,5 @@ This repository contains the code and resources for my bachelor's thesis project
 ### Final Visualization on map
 
 <p align="center">
-  <img src="assets/smoothed_lines.png" alt="Final Visualization" width="600"/>
+  <img src="assets/smoothed_lines.png" alt="Final Visualization" width="800"/>
 </p>
