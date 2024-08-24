@@ -55,7 +55,7 @@ For visualizing road lines on the map, you only need:
 
 <br>
 
-### <span style="color:gold;">1- Videos of The Streets</span>
+### $\color{gold}{1-}$ Videos of The Streets
 
 &nbsp;&nbsp;&nbsp;&nbsp;Initially, you need to collect videos of the streets to identify the road markings. The more similar the features of the images, such as zoom and camera angle, are to the CULane dataset, the better the results you will achieve with the LaneAF model. You can see an example of a suitable image in the [Demo](#demo) section. We fixed the camera using a mount on the vehicle's dashboard and set the camera zoom to 0.5x, which provided very good results. For this task, we used an iPhone camera and the third-party app [TimestampCamera](http://www.timestampcamera.com/) to precisely record the exact timestamp of each frame to the millisecond.
 
@@ -79,7 +79,7 @@ For visualizing road lines on the map, you only need:
 <br>
 <br>
 
-### <span style="color:gold;">2- Location and Magnetic Heading</span>
+### $\color{gold}{2-}$ Location and Magnetic Heading
 
 &nbsp;&nbsp;&nbsp;&nbsp;For precise recording of latitude, longitude, and magnetic heading at any given moment, we developed a Swift application called [MyApp](<https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/tree/master/myapp%20(to_record_locations_and_magnetic_headings)>). This app captures these data at a frequency of 50 Hz. The geographic coordinates (latitude and longitude) recorded each second usually remain the same due to the mobile sensor limitations. However, the main purpose of our application is to determine the exact moment when new location data is updated. This ensures that we can select a frame from the video for visualizing road markings with confidence, knowing that we have the most current location data. As a result, the error from the phone’s low-frequency position measurements is reduced to just one-fiftieth of what it would be with once-per-second location updates.
 
@@ -93,7 +93,7 @@ For visualizing road lines on the map, you only need:
 
 <br>
 
-### <span style="color:gold;">3- IMU Data for Mobile Phone Rotation</span>
+### $\color{gold}{3-}$ IMU Data for Mobile Phone Rotation
 
 &nbsp;&nbsp;&nbsp;&nbsp;To analyze vehicle movement, it is important to collect motion data from the mobile phone. For this purpose, we used the [Sensor Logger](https://github.com/tszheichoi/awesome-sensor-logger) app, which can record motion data at a high frequency. We utilized the angular rotation data of the mobile phone in the process of filtering out noisy lines.
 
@@ -107,7 +107,7 @@ For visualizing road lines on the map, you only need:
 
 <br>
 
-### <span style="color:gold;"> 4- Precise Position of Objects within a Few Pixels Relative to the Camera</span>
+### $\color{gold}{4-}$ Precise Position of Objects within a Few Pixels Relative to the Camera
 
 &nbsp;&nbsp;&nbsp;&nbsp;During image capture, it's necessary to record the precise position of several objects within the image along with the pixels representing them, relative to the camera's position, which is assumed to be at the origin. This data will be used to determine the position of all pixels in the image using a homography matrix. To ensure the accuracy of this information, it's crucial that the camera remains fixed on the vehicle's dashboard throughout the recording, without any movement. Therefore, it's important to use a stable phone mount. <br>
 &nbsp;&nbsp;&nbsp;&nbsp;To form a homography matrix, at least 4 pixels with their positions relative to the camera are required. For testing this project, we recorded 11 such points. The image below shows the recorded positions. Please note that this data is only valid for our images. Therefore, you will need to record the positions again on the day of your image capture.
@@ -123,32 +123,26 @@ For visualizing road lines on the map, you only need:
 <br>
 <br>
 
-
-
 # Implementation
 
 The implementation consists of five main steps:
+
 1. **Detecting road lines within images** using the deep learning model and saving the binary masks.
 2. **Modeling the road lines** with a linear equation using linear regression, followed by calculating the homography matrix to **position the modeled lines relative to the camera**.
 3. **Filtering out noisy lines** to ensure accuracy.
 4. **Finding the global position of the modeled lines** using the camera's location data and the position of each line relative to the camera (creating a KML file).
 5. **Smoothing the sequential lines** that are not perfectly aligned with each other.
 
-
 <br>
 <br>
 
-### <span style="color:gold;">1- Detecting Road Lines within Images</span>
+### $\color{gold}{1-}$ Detecting Road Lines within Images
 
 To detect road lines in video, follow these steps:
 
-
 1. **Download the LaneAF GitHub repository** and copy the files from the `laneaf_inference` folder we've provided into the LaneAF directory.
 
-   <p style="font-size: 0.9em; color: #aaaaaa;">
-   The `net_0033.pth` file contains the pre-trained model weights, trained on the CULane dataset. The `mask_of_all_frames.py` script is used to save binary masks for all frames in a video. It reads a video and saves all the masks in a folder. The `visualize_laneaf_on_one.py` script saves the model's colored prediction for a single image. In this project, you need to run the `mask_of_all_frames.py` script, but we have also included the `visualize_laneaf_on_one.py` script as an optional tool, so you can view the colored output if needed.
-   </p>
-
+   > The `net_0033.pth` file contains the pre-trained model weights, trained on the CULane dataset. The `mask_of_all_frames.py` script is used to save binary masks for all frames in a video. It reads a video and saves all the masks in a folder. The `visualize_laneaf_on_one.py` script saves the model's colored prediction for a single image. In this project, you need to run the `mask_of_all_frames.py` script, but we have also included the `visualize_laneaf_on_one.py` script as an optional tool, so you can view the colored output if needed.
 
 2. You can perform predictions in two ways (prediction with CPU is not recommended as processing each frame may take several minutes):
 
@@ -157,9 +151,8 @@ To detect road lines in video, follow these steps:
 
 By following these steps, you can effectively generate binary masks for road lines within your video frames.
 
-**Important Note:** Before predicting on video frames, crop the video to an aspect ratio of 1664x576 or a multiple of it. Otherwise, your output image may appear stretched, and the model may not perform well. It is recommended to crop out non-essential parts, such as the sky, to optimize the input for better results.
-
+> **Important Note:** Before predicting on video frames, crop the video to an aspect ratio of 1664x576 or a multiple of it. Otherwise, your output image may appear stretched, and the model may not perform well. It is recommended to crop out non-essential parts, such as the sky, to optimize the input for better results.
 
 <br>
 
-### <span style="color:gold;">2- Modeling the road lines and positioning the modeled lines relative to the camera</span>
+### $\color{gold}{2-}$ Modeling the road lines and positioning the modeled lines relative to the camera
