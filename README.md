@@ -2,7 +2,11 @@
 
 - [About](#about)
 - [Demo](#demo)
-- [Implementation](#Implementation)
+- [Essential Data Collection](#essential-data-collection)
+- [Implementation](#implementation)
+
+<br>
+<br>
 
 # About
 
@@ -15,6 +19,9 @@ This approach has two significant applications:
 
 **--> Line detection deep learning model:** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;For the road line detection, we utilized the [LaneAF](https://paperswithcode.com/paper/laneaf-robust-multi-lane-detection-with) model with DLA-34 backbone, which has been pre-trained on the CULane dataset. This model provides high accuracy in detecting lane markings under various conditions. The LaneAF model was developed by Hala Abualsaud and her collaborators. For more details on the LaneAF model and its implementation, please refer to the [LaneAF GitHub repository](https://github.com/sel118/LaneAF?tab=readme-ov-file).
+
+<br>
+<br>
 
 # Demo
 
@@ -34,20 +41,23 @@ To view the visualized lane lines of these two streets (final output of my proje
   <img src="assets/smoothed_lines.png" alt="Final Visualization" width="700"/>
 </p>
 
-# Implementation
+<br>
+<br>
+
+# Essential Data Collection
 
 For visualizing road lines on the map, you only need:
 
 1. **Video of the street with exact timestamps** for syncing frames with location and motion data. LaneAF will predict lines on these frames.
 2. **Precise location and magnetic heading** of the phone, both with millisecond timestamps.
-3. **IMU data** for phone rotation.
-4. **Precise position of objects in a few pixels** relative to the camera (assuming the camera is at the origin). This is used for positioning all other pixels relative to the camera. So you need to record at least 4 pixels' coordinates (x, y) and the position of objects represented by these pixels relative to the camera.
+3. **IMU data** for mobile phone rotation.
+4. **Precise position of objects within a few pixels relative to the camera** (assuming the camera is at the origin). This is used for positioning all other pixels relative to the camera. So you need to record at least 4 pixels' coordinates (x, y) and the position of objects represented by these pixels relative to the camera.
 
 <br>
 
 ### 1- Videos of The Streets
 
-&nbsp;&nbsp;&nbsp;&nbsp;Initially, you need to collect videos of the streets to identify the road markings. The more similar the features of the images, such as zoom and camera angle, are to the CULane dataset, the better the results you will achieve with the LaneAF model. You can see an example of a suitable image in the [Demo](#demo) section. We fixed the camera using a mount on the vehicle's dashboard and set the camera zoom to 0.5x, which provided very good results. For this task, we used an iPhone camera and the third-party app TimestampCamera to precisely record the exact timestamp of each frame to the millisecond.
+&nbsp;&nbsp;&nbsp;&nbsp;Initially, you need to collect videos of the streets to identify the road markings. The more similar the features of the images, such as zoom and camera angle, are to the CULane dataset, the better the results you will achieve with the LaneAF model. You can see an example of a suitable image in the [Demo](#demo) section. We fixed the camera using a mount on the vehicle's dashboard and set the camera zoom to 0.5x, which provided very good results. For this task, we used an iPhone camera and the third-party app [TimestampCamera](http://www.timestampcamera.com/) to precisely record the exact timestamp of each frame to the millisecond.
 
 <table style="width: 100%; table-layout: fixed;">
   <tr>
@@ -73,9 +83,44 @@ For visualizing road lines on the map, you only need:
 
 &nbsp;&nbsp;&nbsp;&nbsp;For precise recording of latitude, longitude, and magnetic heading at any given moment, we developed a Swift application called [MyApp](<https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/tree/master/myapp%20(to_record_locations_and_magnetic_headings)>). This app captures these data at a frequency of 50 Hz. The geographic coordinates (latitude and longitude) recorded each second usually remain the same due to the mobile sensor limitations. However, the main purpose of our application is to determine the exact moment when new location data is updated. This ensures that we can select a frame from the video for visualizing road markings with confidence, knowing that we have the most current location data. As a result, the error from the phone’s low-frequency position measurements is reduced to just one-fiftieth of what it would be with once-per-second location updates.
 
-<div style="display: flex; align-items: center; justify-content: center; margin-top: 20px;">
-  <figure style="text-align: center; max-width: 50%;">
-    <img src="assets/myapp.png" alt="Myapp" style="width: 100%; max-width: 300px; height: auto;" />
-    <figcaption style="margin-top: 10px;">Myapp Records Locations and Magnetic Heading</figcaption>
-  </figure>
-</div>
+<p align="center">
+  <img src="assets/myapp.png" alt="Myapp" width="300"/>
+</p>
+
+<p align="center" style="margin-top: -10px; margin-left: -20px" >
+  Myapp Records Locations and Magnetic Heading
+</p>
+
+<br>
+
+### 3- IMU Data for Mobile Phone Rotation
+
+&nbsp;&nbsp;&nbsp;&nbsp;To analyze vehicle movement, it is important to collect motion data from the mobile phone. For this purpose, we used the [Sensor Logger](https://github.com/tszheichoi/awesome-sensor-logger) app, which can record motion data at a high frequency. We utilized the angular rotation data of the mobile phone in the process of filtering out noisy lines.
+
+<p align="center">
+  <img src="assets/sensor_logger.png" alt="Sensor Logger" width="300"/>
+</p>
+
+<p align="center" style="margin-top: -10px; margin-left: -20px" >
+  Sensor Logger Records IMU Data
+</p>
+
+<br>
+
+### 4- Precise Position of Objects within a Few Pixels Relative to the Camera
+
+&nbsp;&nbsp;&nbsp;&nbsp;During image capture, it's necessary to record the precise position of several objects within the image along with the pixels representing them, relative to the camera's position, which is assumed to be at the origin. This data will be used to determine the position of all pixels in the image using a homography matrix. To ensure the accuracy of this information, it's crucial that the camera remains fixed on the vehicle's dashboard throughout the recording, without any movement. Therefore, it's important to use a stable phone mount. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;To form a homography matrix, at least 4 pixels with their positions relative to the camera are required. For testing this project, we recorded 11 such points. The image below shows the recorded positions. Please note that this data is only valid for our images. Therefore, you will need to record the positions again on the day of your image capture.
+
+<p align="center">
+  <img src="assets/position_of_a_few_pixels.png" alt="position_of_a_few_pixels" width="700"/>
+</p>
+
+<p align="center" style="margin-top: -10px; margin-left: -20px" >
+    Precise Position of Objects within a Few Pixels Relative to the Camera
+</p>
+
+<br>
+<br>
+
+# Implementation
