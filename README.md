@@ -49,17 +49,17 @@ For visualizing road lines on the map, you only need:
 
 &nbsp;&nbsp;&nbsp;&nbsp;Initially, you need to collect videos of the streets to identify the road markings. The more similar the features of the images, such as zoom and camera angle, are to the CULane dataset, the better the results you will achieve with the LaneAF model. You can see an example of a suitable image in the [Demo](#demo) section. We fixed the camera using a mount on the vehicle's dashboard and set the camera zoom to 0.5x, which provided very good results. For this task, we used an iPhone camera and the third-party app TimestampCamera to precisely record the exact timestamp of each frame to the millisecond.
 
-<table>
+<table style="width: 100%; table-layout: fixed;">
   <tr>
-    <td style="vertical-align: bottom;">
-      <figure style="text-align: center;">
+    <td style="vertical-align: bottom; text-align: center;">
+      <figure style="margin: 0;">
         <img src="assets/fixed_camera.jpg" alt="Camera Fixed on the Vehicle's Dashboard" style="width: 100%; max-width: 450px; height: auto;" />
         <figcaption style="margin-top: 10px;">Camera Fixed on the Vehicle's Dashboard</figcaption>
       </figure>
     </td>
-    <td style="vertical-align: bottom;">
-      <figure style="text-align: center;">
-        <img src="assets/timestampCamera.png" alt="Timestamp Camera iOS App" style="width: 100%; max-width: 300px; height: auto;" />
+    <td style="vertical-align: bottom; text-align: center;">
+      <figure style="margin: 0;">
+        <img src="assets/timestampCamera.png" alt="Timestamp Camera iOS App" style="width: 100%; max-width: 250px; height: auto;" />
         <figcaption style="margin-top: 10px;">Timestamp Camera iOS App</figcaption>
       </figure>
     </td>
@@ -73,13 +73,9 @@ For visualizing road lines on the map, you only need:
 
 &nbsp;&nbsp;&nbsp;&nbsp;For precise recording of latitude, longitude, and magnetic heading at any given moment, we developed a Swift application called [MyApp](<https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/tree/master/myapp%20(to_record_locations_and_magnetic_headings)>). This app captures these data at a frequency of 50 Hz. The geographic coordinates (latitude and longitude) recorded each second usually remain the same due to the mobile sensor limitations. However, the main purpose of our application is to determine the exact moment when new location data is updated. This ensures that we can select a frame from the video for visualizing road markings with confidence, knowing that we have the most current location data. As a result, the error from the phone’s low-frequency position measurements is reduced to just one-fiftieth of what it would be with once-per-second location updates.
 
-<table style="margin: auto;">
-  <tr>
-    <td style="text-align: center;">
-      <figure style="text-align: center;">
-        <img src="assets/myapp.png" alt="Myapp" style="max-width: 300px; height: auto;" />
-        <figcaption style="margin-top: 10px;">Myapp Records Locations and Magnetic Heading</figcaption>
-      </figure>
-    </td>
-  </tr>
-</table>
+<div style="display: flex; align-items: center; justify-content: center; margin-top: 20px;">
+  <figure style="text-align: center; max-width: 50%;">
+    <img src="assets/myapp.png" alt="Myapp" style="width: 100%; max-width: 300px; height: auto;" />
+    <figcaption style="margin-top: 10px;">Myapp Records Locations and Magnetic Heading</figcaption>
+  </figure>
+</div>
