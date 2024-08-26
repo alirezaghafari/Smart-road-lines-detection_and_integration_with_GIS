@@ -43,9 +43,9 @@ def find_closest_timestamp(target_timestamp, data):
 # Initialize KML
 kml = Kml()
 
-motion_data_file_path = "locations_and_magneticHeadings.json"
-timestamp_file_path = 'timestamp_of_each_frame.json'
-lines_data_path = 'too_closed_lines_filter.json'
+motion_data_file_path = "locations_data/locations_and_magneticHeadings.json"
+timestamp_file_path = 'output_jsons/timestamp_of_each_frame.json'
+lines_data_path = 'output_jsons/3_filtered_lines_by_length_and_slope_and_yaw_and_closeLines.json'
 
 with open(motion_data_file_path, 'r') as file:
     location_data = json.load(file)
@@ -140,8 +140,8 @@ for frame_data in tqdm(lines_data):
     # Append the frame's line data to the list
     lines_geo_data.append(frame_lines_geo)
 
-with open('lines_coords.json', 'w') as lines_coord_file:
+with open('output_jsons/lines_coords.json', 'w') as lines_coord_file:
     json.dump(lines_geo_data, lines_coord_file, indent=4)
 
 # Save KML file
-kml.save("final_filter.kml")
+kml.save("output_kmls/filtered_lines(initial_output)/3_length_slope_closeLines_filter.kml")

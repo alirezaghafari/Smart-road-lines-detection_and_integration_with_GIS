@@ -28,7 +28,7 @@ def yaw_derivative(file_path: str, output_file_path: str):
     extracted_columns.loc[np.abs(extracted_columns['yaw_derivative']) > 10, 'yaw_derivative'] = 0
 
     # Set the start time
-    start_time_str = '09:23:13.364'
+    start_time_str = '09:23:13.364' # You need to change this based on the start time of your recorded video. The Timestamp Camera app records the time of the first frame in milliseconds.
     start_time = pd.to_datetime(start_time_str, format='%H:%M:%S.%f')
 
     # Convert seconds_elapsed to actual time and extract hours, minutes, and seconds
@@ -68,8 +68,8 @@ def plot_data(data: pd.DataFrame):
     plt.tight_layout()
     plt.show()
 
-file_path = 'Orientation.csv'
-output_file_path = 'Angular_Velocity.csv'
+file_path = 'IMU_data/Orientation.csv'
+output_file_path = 'IMU_data/Angular_Velocity.csv'
 
 # Extract data and save it
 data = yaw_derivative(file_path, output_file_path)

@@ -36,7 +36,7 @@ def save_to_kml(coordinates, output_file):
     kml.save(output_file)
     print(f"KML file with coordinates has been saved: {output_file}")
 
-with open('.json', 'r') as file:
+with open('locations_data/locations_and_magneticHeadings.json', 'r') as file:
     json_data = json.load(file)
 
 # Find all times when coordinates were updated
@@ -47,7 +47,7 @@ if updated_times:
     print("Number of updated coordinates:", len(updated_coordinates))
     print()
 
-    output_file = 'updated_coordinates.kml'
+    output_file = 'output_kmls/captured_locations.kml'
     save_to_kml(updated_coordinates, output_file)
 else:
     print("No time found when coordinates were updated.")

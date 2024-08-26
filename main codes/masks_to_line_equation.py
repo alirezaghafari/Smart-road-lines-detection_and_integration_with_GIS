@@ -26,10 +26,10 @@ object_points = np.array([[40, 0],[40,110],[40,113],
                           [70,0],[100,0],[130,0],
                           [100,125],[160,125]], dtype=np.float32)
 
-input_folder = "60segmentations/"  # masks folder
-output_folder_fitted = "60fitted_lines2/" # visualized fitted lines
-output_folder_birdseye = "60top_view2/"  # visualized top views
-output_json_path = "lines_data.json"  # position of each line (by line's startpoint and endpoint)
+input_folder = "selected_frames/every_60th_mask/"  # masks folder
+output_folder_fitted = "selected_frames/every_60th_fitted_lines/" # visualized fitted lines
+output_folder_birdseye = "every_60th_bird's_eye_view/"  # visualized top views
+output_json_path = "output_jsons/lines_data.json"  # position of each line (by line's startpoint and endpoint)
 
 # Compute the homography matrix
 h, status = cv2.findHomography(image_points, object_points)

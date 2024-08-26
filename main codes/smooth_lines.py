@@ -148,7 +148,7 @@ def average_points(point1, point2):
 
 lines_merge_distance_threshold = 1.1  # Distance threshold in meters; if the end of one line and the start of another line are within this distance, they will be merged.
 
-with open('lines_coords.json', 'r') as f:
+with open('output_jsons/lines_coords.json', 'r') as f:
     data = json.load(f)
 
 # Sort data based on frame number
@@ -219,5 +219,5 @@ for line_id, points in aggregated_lines.items():
         linestring.style.linestyle.color = simplekml.Color.red  
 
 
-kml.save("final_smoothed.kml")
+kml.save("output_kmls/smoothed_lines(final_output)/final_smoothed_lines.kml")
 print("KML file has been saved successfully.")

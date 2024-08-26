@@ -43,10 +43,10 @@ def get_frame_timestamps(video_path, start_time):
     cap.release()
     return timestamps
 
-video_file = ""
-start_time = "09:23:56.224"
+video_file = "your_recorded_video_of_road.mp4" # add your video's address here
+start_time = "09:23:56.224" # You need to change this based on the start time of your recorded video. The Timestamp Camera app records the time of the first frame in milliseconds.
 timestamps = get_frame_timestamps(video_file, start_time)
 
 # Open a json file to write timestamps
-with open('timestamp_of_each_frame.json', 'w') as file:
+with open('output_jsons/timestamp_of_each_frame.json', 'w') as file:
     json.dump(timestamps, file, indent=4)

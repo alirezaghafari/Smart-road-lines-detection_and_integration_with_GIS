@@ -237,9 +237,9 @@ def filter_too_close_lines_in_a_frame(data,output_file_path, distance_threshold=
     return filtered_data
 
 # File paths
-input_file_path = "lines_data.json"
-timestamp_file_path = "timestamp_of_each_frame.json"
-yaw_derivative_file_path = "Angular_Velocity.csv"
+input_file_path = "output_jsons/lines_data.json"
+timestamp_file_path = "output_jsons/timestamp_of_each_frame.json"
+yaw_derivative_file_path = "IMU_data/Angular_Velocity.csv"
 
 # Load the original data
 with open(input_file_path, 'r') as file:
@@ -258,7 +258,7 @@ yaw_derivative_data = read_yaw_derivative_csv(yaw_derivative_file_path)
 # Filter noises by length
 filtered_lines_by_length = length_filter(
     original_data, 
-    output_file_path="filtered_lines_by_length.json", 
+    output_file_path="output_jsons/1_filtered_lines_by_length.json", 
     length_threshold=3.5, 
     plot_histogram_before_filter=True
 )
@@ -268,7 +268,7 @@ filtered_lines_by_slope = slope_filter(
     filtered_lines_by_length,
     timestamp_data,
     yaw_derivative_data,
-    output_file_path="filtered_lines_by_length_and_slope_and_yaw.json",
+    output_file_path="output_jsons/2_filtered_lines_by_length_and_slope_and_yaw.json",
     slope_threshold=7,
     yaw_derivative_threshold=0.045
 )
@@ -276,5 +276,5 @@ filtered_lines_by_slope = slope_filter(
 # Filter noises by too close lines
 final_filtered_data= filter_too_close_lines_in_a_frame(
     filtered_lines_by_slope,
-    output_file_path = "final_lines.json",
+    output_file_path = "output_jsons/3_filtered_lines_by_length_and_slope_and_yaw_and_closeLines.json",
     distance_threshold=2)

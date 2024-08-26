@@ -102,9 +102,9 @@ def map_json_points_to_line(json_data, kml_file):
     return mapped_points
 
 # Paths to input KML and JSON files
-points_kml_file = 'path_to_points_kml_file.kml'
+points_kml_file = 'output_kmls/captured_locations.kml'
 line_kml_file = 'path_to_line_kml_file.kml'
-json_file = 'path_to_input_json_file.json'
+json_file = 'locations_data/locations_and_magneticHeadings.json'
 
 # Load and parse the KML points
 points = parse_kml_points(points_kml_file)
@@ -134,7 +134,7 @@ for i, item in enumerate(data):
     item['longitude'] = mapped_json_points[i]['longitude']
 
 # Save the updated JSON data to a new JSON file
-output_json_file = 'correctedLocation.json'
+output_json_file = 'locations_data/correctedLocation.json'
 save_json(data, output_json_file)
 
 print(f"Updated JSON data has been saved to {output_json_file}")

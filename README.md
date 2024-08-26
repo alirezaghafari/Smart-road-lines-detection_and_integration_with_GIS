@@ -59,22 +59,9 @@ For visualizing road lines on the map, you only need:
 
 &nbsp;&nbsp;&nbsp;&nbsp;Initially, you need to collect videos of the streets to identify the road markings. The more similar the features of the images, such as zoom and camera angle, are to the CULane dataset, the better the results you will achieve with the LaneAF model. You can see an example of a suitable image in the [Demo](#demo) section. We fixed the camera using a mount on the vehicle's dashboard and set the camera zoom to 0.5x, which provided very good results. For this task, we used an iPhone camera and the third-party app [TimestampCamera](http://www.timestampcamera.com/) to precisely record the exact timestamp of each frame to the millisecond.
 
-<table style="width: 100%; table-layout: fixed;">
-  <tr>
-    <td style="vertical-align: bottom; text-align: center;">
-      <figure style="margin: 0;">
-        <img src="assets/fixed_camera.jpg" alt="Camera Fixed on the Vehicle's Dashboard" style="width: 100%; max-width: 450px; height: auto;" />
-        <figcaption style="margin-top: 10px;">Camera Fixed on the Vehicle's Dashboard</figcaption>
-      </figure>
-    </td>
-    <td style="vertical-align: bottom; text-align: center;">
-      <figure style="margin: 0;">
-        <img src="assets/timestampCamera.png" alt="Timestamp Camera iOS App" style="width: 100%; max-width: 250px; height: auto;" />
-        <figcaption style="margin-top: 10px;">Timestamp Camera iOS App</figcaption>
-      </figure>
-    </td>
-  </tr>
-</table>
+|                          **Camera Fixed on the Vehicle's Dashboard**                           |                            **Timestamp Camera iOS App**                            |
+| :--------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: |
+| <img src="assets/fixed_camera.jpg" alt="Camera Fixed on the Vehicle's Dashboard" width="450"/> | <img src="assets/timestampCamera.png" alt="Timestamp Camera iOS App" width="350"/> |
 
 <br>
 <br>
@@ -164,9 +151,46 @@ The direct visualization and positioning of the model's output masks can be prob
 
 To address these issues, each road line needs to be modeled as a single line equation. This can be achieved using linear regression. By doing so, each road line is represented by a line equation, meaning that only the start and end points of each line in each frame will represent that road line. This approach results in a much cleaner final map and significantly reduces the number of necessary computations (since only the start and end points need to be positioned and visualized).
 
-
 To better understand, look at the image below. It shows the original model's mask and the lines fitted using linear regression. In the end, we only need to visualize start and end points representing each road line and connect those two points, which results in faster processing.
 
-| **Original Mask** | **Fitted Lines using Linear Regression** |
-|:-------------------------:|:-----------------------------------------:|
+|                           **Original Mask**                           |                          **Fitted Lines using Linear Regression**                           |
+| :-------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------: |
 | <img src="assets/original_mask.png" alt="Original Mask" width="400"/> | <img src="assets/fitted_lines_using_linear_regression.png" alt="Fitted Lines" width="400"/> |
+
+Now, we need to position the start and end points of each line relative to the camera. To achieve this, we use a homography matrix. The homography matrix is computed using at least four pixels from the image and the actual positions of the objects represented by those pixels (we recorded the positions of 11 points, but you will need to do this again for your own data).
+
+The homography matrix corrects for perspective distortion, adjusting the scale of the image and the distances between objects. This allows us to obtain the precise position of each pixel relative to the camera. For better understanding, see the image below called bird's eye view.
+
+
+| **Road Image** | **Bird's Eye View** |
+|:------------------------:|:-------------------------:|
+| ![Road Image](assets/road1.jpg) | ![Bird's Eye View](assets/bird's_eye_view.jpg) |
+
+-----
+
+<br>
+<br>
+<br>
+
+<p align="center">
+  <img src="assets/mask_bird's_eye_view.gif" alt="masks bird's eye view" width="400"/>
+</p>
+<p align="center" style="margin-top: -10px;" >
+    Bird's Eye View of Masks (Before Fitting Lines Using Linear Regression)
+</p>
+
+----
+<br>
+<br>
+<br>
+
+
+| **Fitted Lines** | **Bird's Eye View of Fitted Lines** |
+|:--------------------------:|:---------------------------------:|
+| <img src="assets/fitted_lines2.png" alt="Fitted Lines" width="500" /> | <img src="assets/bird's_eye_view2.png" alt="Bird's Eye View" width="300" /> |
+
+
+
+Both the steps of modeling the lines and positioning them using the homography matrix are handled by the [`masks_to_line_equation.py`](https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/blob/master/main%20codes/masks_to_line_equation.py) file. This script takes the output masks from the model as input and generates a file named [`lines_data.json`](). 
+
+The `lines_data.json` file contains the position of all lines in each frame. These positions are relative to the camera and are measured in pixels, with each pixel representing 10 centimeters in the real world. This scale is defined by the size of the `bird's eye view` image. You can define any scale that suits your needs.
