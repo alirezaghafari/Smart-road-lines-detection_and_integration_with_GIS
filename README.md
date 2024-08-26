@@ -140,14 +140,14 @@ The implementation consists of five main steps:
 
 To detect road lines in video, follow these steps:
 
-1. **Download the LaneAF GitHub repository** and copy the files from the `laneaf_inference` folder we've provided into the LaneAF directory.
+1. **Download the [LaneAF GitHub repository](https://github.com/sel118/LaneAF)** and copy the files from the [`laneaf_inference`](https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/tree/master/laneaf_inference) folder we've provided into the LaneAF directory.
 
-   > The `net_0033.pth` file contains the pre-trained model weights, trained on the CULane dataset. The `mask_of_all_frames.py` script is used to save binary masks for all frames in a video. It reads a video and saves all the masks in a folder. The `visualize_laneaf_on_one.py` script saves the model's colored prediction for a single image. In this project, you need to run the `mask_of_all_frames.py` script, but we have also included the `visualize_laneaf_on_one.py` script as an optional tool, so you can view the colored output if needed.
+   > The [`net_0033.pth`](https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/blob/master/laneaf_inference/net_0033.pth) file contains the pre-trained model weights, trained on the CULane dataset. The [`mask_of_all_frames.py`](https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/blob/master/laneaf_inference/mask_of_all_frames.py) script is used to save binary masks for all frames in a video. It reads a video and saves all the masks in a folder. The [`visualize_laneaf_on_one.py`](https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/blob/master/laneaf_inference/visualize_laneaf_on_one.py) script saves the model's colored prediction for a single image. In this project, you need to run the `mask_of_all_frames.py` script, but we have also included the `visualize_laneaf_on_one.py` script as an optional tool, so you can view the colored output if needed.
 
 2. You can perform predictions in two ways (prediction with CPU is not recommended as processing each frame may take several minutes):
 
    1. **If you have an NVIDIA GPU**, you can directly run the `mask_of_all_frames.py` or `visualize_laneaf_on_one.py` scripts.
-   2. **Alternatively, you can use a T4 GPU on Google Colab**. We've provided a Jupyter notebook `perdictByLaneaf.ipynb` for this purpose. You need to upload the LaneAF folder (with the 3 inference files copied into it) to your Google Drive. Then, run the notebook in Google Colab. Make sure to change your runtime to T4 GPU first.
+   2. **Alternatively, you can use a T4 GPU on [Google Colab](https://colab.research.google.com/)**. We've provided a Jupyter notebook [`perdictByLaneaf.ipynb`](https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/blob/master/perdictByLaneaf.ipynb) for this purpose. You need to upload the LaneAF folder (with the 3 inference files copied into it) to your Google Drive. Then, run the notebook in Google Colab. Make sure to change your runtime to T4 GPU first.
 
 By following these steps, you can effectively generate binary masks for road lines within your video frames.
 
@@ -156,3 +156,17 @@ By following these steps, you can effectively generate binary masks for road lin
 <br>
 
 ### $\color{gold}{2-}$ Modeling the road lines and positioning the modeled lines relative to the camera
+
+The direct visualization and positioning of the model's output masks can be problematic for two main reasons:
+
+- **Cluttered and messy map:** The road line markings have a significant width, leading to an overcrowded and confusing map.
+- **Inefficient positioning:** Due to the large number of pixels representing the road lines, positioning becomes highly inefficient.
+
+To address these issues, each road line needs to be modeled as a single line equation. This can be achieved using linear regression. By doing so, each road line is represented by a line equation, meaning that only the start and end points of each line in each frame will represent that road line. This approach results in a much cleaner final map and significantly reduces the number of necessary computations (since only the start and end points need to be positioned and visualized).
+
+
+To better understand, look at the image below. It shows the original model's mask and the lines fitted using linear regression. In the end, we only need to visualize start and end points representing each road line and connect those two points, which results in faster processing.
+
+| **Original Mask** | **Fitted Lines using Linear Regression** |
+|:-------------------------:|:-----------------------------------------:|
+| <img src="assets/original_mask.png" alt="Original Mask" width="400"/> | <img src="assets/fitted_lines_using_linear_regression.png" alt="Fitted Lines" width="400"/> |
