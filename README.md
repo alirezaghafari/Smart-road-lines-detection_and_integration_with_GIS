@@ -6,6 +6,7 @@
 - [Implementation](#implementation)
 - [Results](#results)
 - [Quick Summary of Execution Steps](#quick-summary-of-execution-steps)
+- [License](#license)
 - [Contacts](#contacts)
 
 <br>
