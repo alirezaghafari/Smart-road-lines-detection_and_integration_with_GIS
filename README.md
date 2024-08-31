@@ -21,7 +21,7 @@ This approach has two significant applications:
 2. **Autonomous Vehicles**: Accurate road line information provides crucial data for autonomous vehicle systems, helping them better identify paths and make decisions in situations where the distance is beyond the range of the vehicle's cameras and sensors.
 
 **--> Line detection deep learning model:** <br>
-&nbsp;&nbsp;&nbsp;&nbsp;For the road line detection, we utilized the [LaneAF](https://paperswithcode.com/paper/laneaf-robust-multi-lane-detection-with) model with DLA-34 backbone, which has been pre-trained on the CULane dataset. This model provides high accuracy in detecting lane markings under various conditions. The LaneAF model was developed by Hala Abualsaud and her collaborators. For more details on the LaneAF model and its implementation, please refer to the [LaneAF GitHub repository](https://github.com/sel118/LaneAF?tab=readme-ov-file).
+&nbsp;&nbsp;&nbsp;&nbsp;For the road line detection, we utilized the [LaneAF](https://ieeexplore.ieee.org/document/9492057) model with DLA-34 backbone, which has been pre-trained on the CULane dataset. This model provides high accuracy in detecting lane markings under various conditions. The LaneAF model was developed by Hala Abualsaud and her collaborators. For more details on the LaneAF model and its implementation, please refer to the [LaneAF GitHub repository](https://github.com/sel118/LaneAF?tab=readme-ov-file).
 
 <br>
 <br>
@@ -370,6 +370,20 @@ produces the output [`lines_coords.json`](https://github.com/alirezaghafari/Smar
 - [`correct_locations.py`](https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/blob/master/main%20codes/correct_locations.py) can be used to correct location errors across the street. It takes a KML of your driving path and shifts the recorded locations to the nearest point on that path. For example, if you were driving in the second lane, but the locations were recorded in the third lane (due to sensor errors), you can draw a path in the second lane and provide the KML file to this Python script to correct the erroneous locations.
 
 <br>
+
+## License
+
+This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0). This means you are free to:
+
+- **Share** — copy and redistribute the material in any medium or format
+- **Adapt** — remix, transform, and build upon the material
+
+**Under the following terms:**
+
+- **Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+- **NonCommercial** — You may not use the material for commercial purposes.
+
+For more details, see the full [license](https://creativecommons.org/licenses/by-nc/4.0/).
 
 ## Contacts
 
