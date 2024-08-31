@@ -53,7 +53,7 @@ For visualizing road lines on the map, you only need:
 
 1. **Video of the street with exact timestamps** for syncing frames with location and motion data. LaneAF will predict lines on these frames.
 2. **Precise location and magnetic heading** of the phone, both with millisecond timestamps.
-3. **IMU data** for mobile phone rotation.
+3. **Motion data** for mobile phone rotation.
 4. **Precise position of objects within a few pixels relative to the camera** (assuming the camera is at the origin). This is used for positioning all other pixels relative to the camera. So you need to record at least 4 pixels' coordinates (x, y) and the position of objects represented by these pixels relative to the camera.
 
 <br>
@@ -83,7 +83,7 @@ For visualizing road lines on the map, you only need:
 
 <br>
 
-### $\color{gold}{3-}$ IMU Data for Mobile Phone Rotation
+### $\color{gold}{3-}$ Motion Data for Mobile Phone Rotation
 
 &nbsp;&nbsp;&nbsp;&nbsp;To analyze vehicle movement, it is important to collect motion data from the mobile phone. For this purpose, we used the [Sensor Logger](https://github.com/tszheichoi/awesome-sensor-logger) app, which can record motion data at a high frequency. We utilized the angular rotation data of the mobile phone in the process of filtering out noisy lines.
 
@@ -92,7 +92,7 @@ For visualizing road lines on the map, you only need:
 </p>
 
 <p align="center" style="margin-top: -10px; margin-left: -20px" >
-  Sensor Logger Records IMU Data
+  Sensor Logger Records Motion Data
 </p>
 
 <br>
@@ -216,7 +216,7 @@ The direct visualization and positioning of the model's output masks can be prob
 
 - [`lines_data.json`](https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/blob/master/output_jsons/lines_data.json)
 - [`timestamp_of_each_frame.json`](https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/blob/master/output_jsons/timestamp_of_each_frame.json)
-- [`Angular_Velocity.csv`](https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/blob/master/IMU_data/Angular_Velocity.csv)
+- [`Angular_Velocity.csv`](https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/blob/master/motion_data/Angular_Velocity.csv)
 
 and produces three filtered line files:
 
@@ -224,7 +224,7 @@ and produces three filtered line files:
 - [`"2_filtered_lines_by_length_and_slope_and_yaw.json"`](https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/blob/master/output_jsons/2_filtered_lines_by_length_and_slope_and_yaw.json)
 - [`"3_filtered_lines_by_length_and_slope_and_yaw_and_closeLines.json"`](https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/blob/master/output_jsons/3_filtered_lines_by_length_and_slope_and_yaw_and_closeLines.json)
 
-&nbsp;&nbsp;&nbsp;&nbsp;We have recorded the orientation using the IMU. Now, we can calculate the angular velocity using the [`vehicle_angular_velocity.py`](https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/blob/master/main%20codes/vehicle_angular_velocity.py) file. <br> &nbsp;&nbsp;&nbsp;&nbsp;You can visualize any of these output files as desired. However, the best results for us come from the third output, which has undergone all three filtering steps.
+&nbsp;&nbsp;&nbsp;&nbsp;We have recorded the orientation using mobile sensors. Now, we can calculate the angular velocity using the [`vehicle_angular_velocity.py`](https://github.com/alirezaghafari/Smart-road-lines-detection_and_integration_with_GIS/blob/master/main%20codes/vehicle_angular_velocity.py) file. <br> &nbsp;&nbsp;&nbsp;&nbsp;You can visualize any of these output files as desired. However, the best results for us come from the third output, which has undergone all three filtering steps.
 
 #### Additional Details on Filtering:
 
