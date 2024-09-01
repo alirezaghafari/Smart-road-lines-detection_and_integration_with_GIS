@@ -14,7 +14,7 @@
 
 # About
 
-&nbsp;&nbsp;&nbsp;&nbsp;This repository contains the code and resources for my bachelor's thesis project at Amirkabir University of Tehran. The project focuses on the automated detection of road lines and integration into Geographic Information System (GIS) using smartphone-based camera and motion data. The approach leverages a deep learning model to detect road lines from videos, processes and filters the detected lines, and visualizes them on a map, providing an efficient and cost-effective solution for urban infrastructure monitoring.
+&nbsp;&nbsp;&nbsp;&nbsp;This repository contains the codes and resources for my bachelor's thesis project at the Department of Computer Engineering, [Amirkabir University of Tehran](https://aut.ac.ir/en). The project focuses on the automated detection of road lines and integration into Geographic Information System (GIS) using smartphone-based camera and motion data. The approach leverages a deep learning model to detect road lines from videos, processes and filters the detected lines, and visualizes them on a map, providing an efficient and cost-effective solution for urban infrastructure monitoring.
 
 This approach has two significant applications:
 
@@ -143,6 +143,10 @@ To detect road lines in video, follow these steps:
 By following these steps, you can effectively generate binary masks for road lines within your video frames.
 
 > **Important Note:** Before predicting on video frames, crop the video to an aspect ratio of 1664x576 or a multiple of it. Otherwise, your output image may appear stretched, and the model may not perform well. It is recommended to crop out non-essential parts, such as the sky, to optimize the input for better results.
+
+[Our Captured video from the street](https://drive.google.com/file/d/1GdftUYjIJGRYxodQV_rQ-8_gEbzgJla2/view?usp=sharing): This is the video captured from the street, used as input for the line detection process.
+
+[Prediction results from the model](https://drive.google.com/file/d/17GjgcbYEgASuXyuB7KVzLV4NdXlgZpwy/view?usp=sharing): This video shows the model's prediction results on the captured street video.
 
 <br>
 
